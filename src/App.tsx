@@ -1,14 +1,15 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Layout } from './components/Layout';
+import { WordCard } from './components/WordCard';
+
 
 function App() {
   return (
-    <>
-      <div>
-      </div>
-    </>
+      <Layout>
+          <div className="h-full flex items-center justify-center">
+              <WordCard text="학교" pronunciation="hakkyo" />
+          </div>
+      </Layout>
   )
 }
 
