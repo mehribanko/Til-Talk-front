@@ -1,36 +1,64 @@
+import {useState} from 'react';
+import {Card} from './Card';
 
 interface WordCardProps {
+    lang: string;
     text: string;
     pronunciation: string;
     onFavorite: () => void;
+    onSkip: () => void;
     onFlip?: () => void;
 }
 
 
-export const WordCard = ({ text, pronunciation, onFavorite, onFlip}: WordCardProps) => {
+export const WordCard = ({ lang, text, pronunciation, onFavorite, onFlip, onSkip}: WordCardProps) => {
+
+    const [tilt, setTilt] = useState<'left' | 'right' | null>(null);
+
+    const getCardStyle = () => {
+        const base = 'transition-all duration-300 ease-out';
+        switch (tilt) {
+            case 'left':
+                return {
+                    transform: 'rotate(-12deg) translateX(-20px)',
+                    boxShadow: '20px 10px 30px rgba(0,0,0,0.15)',
+                };
+            case 'right':
+                return {
+                    transform: 'rotate(12deg) translateX(20px)',
+                    boxShadow: '-20px 10px 30px rgba(0,0,0,0.15)',
+                };
+            default:
+                return {
+                    transform: 'rotate(0deg)',
+                    boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
+                };
+        }
+    };
 
     return  (
         <div className="relative flex items-center justify-center gap-8">
             {/* Skip button */}
-            <button className="w-14 h-14 bg-black rounded-full text-white text-2xl">
+            <button className="w-14 h-14 bg-black rounded-full text-white text-2xl"
+                    onMouseEnter={() => setTilt('left')}
+                    onMouseLeave={() => setTilt(null)}>
                 ✕
             </button>
 
             {/* Card */}
-            <div className="w-80 h-96 bg-gradient-to-b from-white to-purple-50 rounded-3xl shadow-lg flex flex-col items-center justify-center gap-4">
-                <p className="text-gray-500">Korean</p>
-                <h2 className="text-5xl font-bold">{text}</h2>
-                <p className="text-gray-400">[{pronunciation}]</p>
-                <button className="mt-4 text-2xl">🎤</button>
-                <button onClick={onFlip} className="text-purple-400 mt-2">⇄</button>
+            <div className="transition-all duration-300 ease-out" style={getCardStyle()}>
+                <Card lang={lang} text={text} pronunciation={pronunciation} onFlip={onFlip}/>
             </div>
 
             {/* Favorite button */}
             <button
+                onMouseEnter={() => setTilt('right')}
+                onMouseLeave={() => setTilt(null)}
                 onClick={onFavorite}
                 className="w-14 h-14 bg-red-100 rounded-full text-red-500 text-2xl"
             >
                 ❤️
+
             </button>
         </div>
     )
