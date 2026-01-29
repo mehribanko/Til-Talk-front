@@ -1,5 +1,8 @@
 import {useState} from 'react';
-import {Card} from './Card';
+import {Card} from './card/Card';
+import {SkipButton} from './button/SkipButton';
+import {KnowButton}  from './button/KnowButton';
+import {getCardStyle} from '../common/commonUtils';
 
 interface WordCardProps {
     lang: string;
@@ -15,51 +18,19 @@ export const WordCard = ({ lang, text, pronunciation, onFavorite, onFlip, onSkip
 
     const [tilt, setTilt] = useState<'left' | 'right' | null>(null);
 
-    const getCardStyle = () => {
-        const base = 'transition-all duration-300 ease-out';
-        switch (tilt) {
-            case 'left':
-                return {
-                    transform: 'rotate(-12deg) translateX(-20px)',
-                    boxShadow: '20px 10px 30px rgba(0,0,0,0.15)',
-                };
-            case 'right':
-                return {
-                    transform: 'rotate(12deg) translateX(20px)',
-                    boxShadow: '-20px 10px 30px rgba(0,0,0,0.15)',
-                };
-            default:
-                return {
-                    transform: 'rotate(0deg)',
-                    boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
-                };
-        }
-    };
 
     return  (
-        <div className="relative flex items-center justify-center gap-8">
+        <div className="relative flex items-center justify-center gap-20">
             {/* Skip button */}
-            <button className="w-14 h-14 bg-black rounded-full text-white text-2xl"
-                    onMouseEnter={() => setTilt('left')}
-                    onMouseLeave={() => setTilt(null)}>
-                ✕
-            </button>
+            <SkipButton setTilt={setTilt} />
 
             {/* Card */}
-            <div className="transition-all duration-300 ease-out" style={getCardStyle()}>
+            <div className="transition-all duration-300 ease-out  mx-12" style={getCardStyle(tilt)}>
                 <Card lang={lang} text={text} pronunciation={pronunciation} onFlip={onFlip}/>
             </div>
 
-            {/* Favorite button */}
-            <button
-                onMouseEnter={() => setTilt('right')}
-                onMouseLeave={() => setTilt(null)}
-                onClick={onFavorite}
-                className="w-14 h-14 bg-red-100 rounded-full text-red-500 text-2xl"
-            >
-                ❤️
-
-            </button>
+            {/* I Know Button button */}
+            <KnowButton setTilt={setTilt} />
         </div>
     )
 }
