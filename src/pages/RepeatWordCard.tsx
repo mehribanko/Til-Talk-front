@@ -1,7 +1,7 @@
 import {useState} from 'react';
-import {Card} from './card/Card';
-import {SkipButton} from './button/SkipButton';
-import {KnowButton}  from './button/KnowButton';
+import {Card} from '../components/card/Card';
+import {SkipButton} from '../components/button/SkipButton';
+import {KnowButton}  from '../components/button/KnowButton';
 import {getCardStyle} from '../common/commonUtils';
 
 interface WordCardProps {
@@ -14,7 +14,7 @@ interface WordCardProps {
 }
 
 
-export const WordCard = ({ lang, text, pronunciation, onFavorite, onFlip, onSkip}: WordCardProps) => {
+export const RepeatWordCard = ({ lang, text, pronunciation, onFavorite, onFlip, onSkip}: WordCardProps) => {
 
     const [tilt, setTilt] = useState<'left' | 'right' | null>(null);
 
