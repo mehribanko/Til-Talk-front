@@ -1,15 +1,18 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import { Layout } from './components/Layout';
-import { WordCard } from './components/WordCard';
+import {RepeatWordCard} from "./pages/RepeatWordCard";
 
 
 function App() {
   return (
-      <Layout>
-          <div className="h-full flex items-center justify-center">
-              <WordCard text="학교" pronunciation="hakkyo" />
-          </div>
-      </Layout>
+      <BrowserRouter>
+          <Layout>
+              <Routes>
+                  <Route path ="/repeat" element={<RepeatWordCard/>}/>
+              </Routes>
+          </Layout>
+      </BrowserRouter>
   )
 }
 
