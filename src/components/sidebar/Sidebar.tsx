@@ -1,6 +1,12 @@
+import {Link} from 'react-router-dom';
 
+
+interface MenuItem {
+    label: string;
+    path: string;
+}
 interface SidebarProps {
-    items: string[];
+    items: MenuItem[];
     onSelect?: (item: string)  => void;
 }
 
@@ -15,13 +21,14 @@ export const Sidebar = ({items, onSelect}: SidebarProps) => {
             {/* Nav items */}
             <div className="flex-1">
                 {items.map((item) => (
-                    <div
-                        key={item}
+                    <Link
+                        key={item.label}
+                        to={item.path}
                         onClick={() => onSelect?.(item)}
                         className="flex items-center gap-3 p-3 rounded-lg cursor-pointer hover:bg-purple-50 text-gray-700"
                     >
-                        {item}
-                    </div>
+                        {item.label}
+                    </Link>
                 ))}
             </div>
 
