@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import { Layout } from './components/Layout';
-import {RepeatWordCard} from "./pages/RepeatWordCard";
+import {RepeatWordMenu} from "./pages/RepeatWordMenu";
 
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
       <BrowserRouter>
           <Layout>
               <Routes>
-                  <Route path ="/repeat" element={<RepeatWordCard/>}/>
+                  <Route path ="/repeat" element={<RepeatWordMenu/>}/>
               </Routes>
           </Layout>
       </BrowserRouter>

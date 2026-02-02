@@ -1,15 +1,15 @@
 import {useState} from 'react';
-import {Card} from '../components/card/Card';
-import {SkipButton} from '../components/button/SkipButton';
-import {KnowButton}  from '../components/button/KnowButton';
-import {getCardStyle} from '../common/commonUtils';
+import {Card} from './Card';
+import {SkipButton} from '../button/SkipButton';
+import {KnowButton}  from '../button/KnowButton';
+import {getCardStyle} from '../../common/util/commonUtils';
 
 interface WordCardProps {
     lang: string;
     text: string;
     pronunciation: string;
-    onFavorite: () => void;
-    onSkip: () => void;
+    onFavorite?: () => void;
+    onSkip?: () => void;
     onFlip?: () => void;
 }
 
