@@ -22,7 +22,7 @@ export const RepeatWordCard = ({ lang, text, pronunciation, onFavorite, onFlip, 
     return  (
         <div className="relative flex items-center justify-center gap-20">
             {/* Skip button */}
-            <SkipButton setTilt={setTilt} />
+            <SkipButton setTilt={setTilt} onSkip={onSkip} />
 
             {/* Card */}
             <div className="transition-all duration-300 ease-out  mx-12" style={getCardStyle(tilt)}>
