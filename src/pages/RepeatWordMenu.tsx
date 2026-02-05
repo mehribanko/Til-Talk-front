@@ -7,31 +7,22 @@ import {mockData} from "../common/mockData/mockWordList";
 
 export const RepeatWordMenu = () => {
 
-   const [wordNum, setWordNum] = useState(0);
-   const firstWordToRepeat: any = mockData[wordNum];
+   const [currIdx, setCurrIdx] = useState(0);
+   const isComplete = currIdx >= mockData.length;
+   const currentWord = mockData[currIdx];
 
    const handleSkipWord = () => {
-       setWordNum(wordNum+1);
-
-       const len = mockData.length();
-       if(wordNum< len){
-           const nextWordToRepeat = mockData[wordNum];
-           return <RepeatWordCard lang={firstWordToRepeat.lang} text={firstWordToRepeat.korean} pronunciation={firstWordToRepeat.romanization} onSkip={handleSkipWord} />
-       }else{
-           return "You repeated all the words!"
-       }
-
+       setCurrIdx(prev => prev + 1);
    }
 
-   const getFirstWordToRepeat = () => {
-       return <RepeatWordCard lang={firstWordToRepeat.lang} text={firstWordToRepeat.korean} pronunciation={firstWordToRepeat.romanization} onSkip={handleSkipWord} />
+   if(isComplete){
+       return <div>Good Job! You repeated all words!</div>
    }
-
 
 
     return (
         <div>
-            {getFirstWordToRepeat()}
+            <RepeatWordCard lang={currentWord.lang} text={currentWord.korean} pronunciation={currentWord.romanization} onSkip={handleSkipWord} />
         </div>
     )
 
