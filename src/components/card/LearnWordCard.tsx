@@ -1,10 +1,21 @@
-import {SkipButton} from "../button/SkipButton";
+
 import {getCardStyle} from "../../common/util/commonUtils";
 import {Card} from "./Card";
 import {LearnButton} from "../button/LearnButton";
+import {useState} from "react";
+
+interface LearnWordCardProps {
+    lang: string;
+    text: string;
+    pronunciation: string;
+    onLearnClick: () => void;
+    onFlip?: () => void;
+}
 
 
-export const LearnWordCard = () => {
+const LearnWordCard = ({lang, text, pronunciation, onLearnClick, onFlip} : LearnWordCardProps) => {
+
+    const [tilt, setTilt]= useState<'left'| 'right' | null>(null);
 
     return (
         <div>
@@ -14,7 +25,8 @@ export const LearnWordCard = () => {
             </div>
 
             {/* I learn button */}
-            <LearnButton setTilt={setTilt} />
+            <LearnButton setTilt={setTilt} onLearn={onLearnClick} />
         </div>
     )
 }
+export default LearnWordCard

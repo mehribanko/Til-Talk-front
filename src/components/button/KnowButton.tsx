@@ -1,5 +1,5 @@
 interface KnowButtonProps {
-    setTilt: () => void;
+    setTilt: (value: 'left' | 'right' | null) => void;
 }
 
 export const KnowButton = ( {setTilt }: KnowButtonProps) => {

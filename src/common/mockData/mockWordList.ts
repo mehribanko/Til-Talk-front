@@ -2,7 +2,7 @@ export const mockData = [
     {
         "lang": "Korean",
         "korean": "안녕하세요",
-        "pronunciation": "annyeonghaseyo",
+        "romanization": "annyeonghaseyo",
         "karakalpak": "Sa'lem!",
     },
     {
