@@ -1,3 +1,4 @@
+import type {ReactNode} from "react";
 import {Sidebar} from './sidebar/Sidebar';
 import {SidebarMenuItems} from '.././common/constant/MenuData';
 

@@ -1,13 +1,15 @@
 interface KnowButtonProps {
-    setTilt: () => void;
+    setTilt: (value: 'left' | 'right' | null) => void;
+    onLearn: () => void;
 }
 
-export const LearnButton = ( {setTilt }: KnowButtonProps) => {
+export const LearnButton = ( {setTilt, onLearn}: KnowButtonProps) => {
 
     return (
         <button
-            onMouseEnter={() => setTilt('right')}
+            onMouseEnter={() => setTilt('left')}
             onMouseLeave={() => setTilt(null)}
+            onClick={onLearn}
             className="w-18 h-18 bg-purple-100 rounded-full text-red-500 text-2xl"
         >
             🍀

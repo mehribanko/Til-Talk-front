@@ -1,5 +1,5 @@
 
-export const getCardStyle = (tilt: string) => {
+export const getCardStyle = (tilt: string | null) => {
     const base = 'transition-all duration-300 ease-out';
     switch (tilt) {
         case 'left':

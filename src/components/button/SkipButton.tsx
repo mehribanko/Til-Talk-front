@@ -1,6 +1,6 @@
 
 interface SkipButtonProps {
-    setTilt: () => void;
+    setTilt: (value: 'left' | 'right' | null) => void;
     onSkip?: () => void;
 }
 

@@ -14,7 +14,7 @@ interface WordCardProps {
 }
 
 
-export const RepeatWordCard = ({ lang, text, pronunciation, onFavorite, onFlip, onSkip}: WordCardProps) => {
+export const RepeatWordCard = ({ lang, text, pronunciation, onFlip, onSkip}: WordCardProps) => {
 
     const [tilt, setTilt] = useState<'left' | 'right' | null>(null);
 

@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import {RepeatWordCard} from "../components/card/RepeatWordCard";
 import {mockData} from "../common/mockData/mockWordList";
 
