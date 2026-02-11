@@ -1,6 +1,7 @@
 import LearnWordCard from "../components/card/LearnWordCard"
 import {useState} from "react";
 import {mockData} from "../common/mockData/mockWordList.ts";
+import {StatCard} from "../components/card/StatCard.tsx";
 
 export const LearnWordMenu = () => {
 
@@ -18,12 +19,16 @@ export const LearnWordMenu = () => {
         )
     }
     return (
-        <div>
-            <LearnWordCard
-                lang={currentWord.lang}
-                text={currentWord.korean}
-                pronunciation={currentWord.romanization}
-                onLearnClick = {handleOnLearnClick} />
+            <div className="h-full flex flex-col">
+                <StatCard />
+
+                <div className="flex-1 flex items-center justify-center">
+                   <LearnWordCard
+                        lang={currentWord.lang}
+                        text={currentWord.korean}
+                        pronunciation={currentWord.romanization}
+                        onLearnClick = {handleOnLearnClick} />
+                </div>
         </div>
     )
 }

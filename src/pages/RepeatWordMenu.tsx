@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {RepeatWordCard} from "../components/card/RepeatWordCard";
 import {mockData} from "../common/mockData/mockWordList";
+import {StatCard} from "../components/card/StatCard.tsx";
 
 
 
@@ -21,8 +22,16 @@ export const RepeatWordMenu = () => {
 
 
     return (
-        <div>
-            <RepeatWordCard lang={currentWord.lang} text={currentWord.korean} pronunciation={currentWord.romanization} onSkip={handleSkipWord} />
+        <div className="h-full flex flex-col">
+            <StatCard />
+
+            <div className="flex-1 flex items-center justify-center">
+                <RepeatWordCard
+                    lang={currentWord.lang}
+                    text={currentWord.korean}
+                    pronunciation={currentWord.romanization}
+                    onSkip={handleSkipWord} />
+            </div>
         </div>
     )
 

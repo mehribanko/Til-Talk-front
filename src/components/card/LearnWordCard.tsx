@@ -18,9 +18,9 @@ const LearnWordCard = ({lang, text, pronunciation, onLearnClick, onFlip} : Learn
     const [tilt, setTilt]= useState<'left'| 'right' | null>(null);
 
     return (
-        <div>
+        <div className="flex items-center gap-26">
             {/* Card */}
-            <div className="transition-all duration-300 ease-out  mx-12" style={getCardStyle(tilt)}>
+            <div className="transition-all duration-300 ease-out" style={getCardStyle(tilt)}>
                 <Card lang={lang} text={text} pronunciation={pronunciation} onFlip={onFlip}/>
             </div>
 
