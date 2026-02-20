@@ -1,4 +1,5 @@
 import {Link} from 'react-router-dom';
+import {LangToggleButton} from "../button/LangToggleButton.tsx";
 
 
 interface MenuItem {
@@ -32,6 +33,7 @@ export const Sidebar = ({items, onSelect}: SidebarProps) => {
                 ))}
             </div>
 
+            <LangToggleButton/>
             <button className="bg-purple-600 text-white py-3 rounded-xl">
                 Guide
             </button>
