@@ -16,6 +16,7 @@ export const LearnWordMenu = () => {
 
     const handleOnLearnClick = () => {
         setCurrentIdx((prev => prev +1));
+        setFlippedCard(false);
     }
 
     const handleOnFlipClick = () => {
@@ -50,6 +51,7 @@ export const LearnWordMenu = () => {
                         pronunciation={displayData.romanization}
                         onLearnClick={handleOnLearnClick}
                         onFlip = {handleOnFlipClick} />
+
                 </div>
         </div>
     )
