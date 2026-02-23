@@ -11,7 +11,7 @@ export const LearnWordMenu = () => {
     const [currentIdx, setCurrentIdx] = useState(0);
     const isComplete = currentIdx === mockData.length;
     const [learnLangType]= useState<'kor' | 'kk'>('kk');
-    const [flippedCard, setFlippedCard] = useState<true | false>(false);
+    const [flippedCard, setFlippedCard] = useState(false);
     const currentWord = mockData[currentIdx];
 
     const handleOnLearnClick = () => {
@@ -19,16 +19,15 @@ export const LearnWordMenu = () => {
     }
 
     const handleOnFlipClick = () => {
-        if(flippedCard){
-            setFlippedCard(false);
-        }else{
-            setFlippedCard(true);
-        }
+        setFlippedCard(prev => !prev);
     }
 
     const config = LANG_CONFIG[learnLangType];
     const langData = currentWord[config.key];
     const flipLangData = currentWord[config.flipKey];
+
+    const displayData= flippedCard ? flipLangData : langData;
+    const displayLabel = flippedCard ? config.flipLabel : config.label;
 
 
     if(isComplete){
@@ -45,20 +44,12 @@ export const LearnWordMenu = () => {
 
                 <div className="flex-1 flex items-center justify-center">
 
-                    {flippedCard ? <LearnWordCard
-                        lang={config.label}
-                        text={flipLangData.word}
-                        pronunciation={flipLangData.romanization}
+                   <LearnWordCard
+                        lang={displayLabel}
+                        text={displayData.word}
+                        pronunciation={displayData.romanization}
                         onLearnClick={handleOnLearnClick}
-                        onFlip = {handleOnFlipClick}
-                    /> : <LearnWordCard
-                        lang={config.label}
-                        text={langData.word}
-                        pronunciation={langData.romanization}
-                        onLearnClick={handleOnLearnClick}
-                        onFlip = {handleOnFlipClick}
-                    /> }
-
+                        onFlip = {handleOnFlipClick} />
                 </div>
         </div>
     )
