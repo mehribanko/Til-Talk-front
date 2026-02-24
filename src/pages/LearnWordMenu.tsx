@@ -27,17 +27,11 @@ export const LearnWordMenu = () => {
     const langData = currentWord[config.key];
     const flipLangData = currentWord[config.flipKey];
 
-    const displayData= flippedCard ? flipLangData : langData;
-    const displayLabel = flippedCard ? config.flipLabel : config.label;
-
-
     if(isComplete){
         return (
             <div> You learned all the words! </div>
         )
     }
-
-
 
     return (
             <div className="h-full flex flex-col">
@@ -46,11 +40,15 @@ export const LearnWordMenu = () => {
                 <div className="flex-1 flex items-center justify-center">
 
                    <LearnWordCard
-                        lang={displayLabel}
-                        text={displayData.word}
-                        pronunciation={displayData.romanization}
+                        isFlipped={flippedCard}
+                        lang={config.label}
+                        text={langData.word}
+                        pronunciation={langData.romanization}
+                        backLang={config.flipLabel}
+                        backText={flipLangData.word}
+                        backPronunciation={flipLangData.romanization}
                         onLearnClick={handleOnLearnClick}
-                        onFlip = {handleOnFlipClick} />
+                        onFlip={handleOnFlipClick} />
 
                 </div>
         </div>
