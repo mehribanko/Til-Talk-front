@@ -5,15 +5,19 @@ import {LearnButton} from "../button/LearnButton";
 import {useState} from "react";
 
 interface LearnWordCardProps {
+    isFlipped: boolean;
     lang: string;
     text: string;
     pronunciation: string;
+    backLang: string;
+    backText: string;
+    backPronunciation: string;
     onLearnClick: () => void;
     onFlip?: () => void;
 }
 
 
-const LearnWordCard = ({lang, text, pronunciation, onLearnClick, onFlip} : LearnWordCardProps) => {
+const LearnWordCard = ({isFlipped, lang, text, pronunciation, backLang, backText, backPronunciation, onLearnClick, onFlip} : LearnWordCardProps) => {
 
     const [tilt, setTilt]= useState<'left'| 'right' | null>(null);
 
@@ -21,7 +25,16 @@ const LearnWordCard = ({lang, text, pronunciation, onLearnClick, onFlip} : Learn
         <div className="flex items-center gap-26">
             {/* Card */}
             <div className="transition-all duration-300 ease-out" style={getCardStyle(tilt)}>
-                <Card lang={lang} text={text} pronunciation={pronunciation} onFlip={onFlip}/>
+                <Card
+                    isFlipped={isFlipped}
+                    lang={lang}
+                    text={text}
+                    pronunciation={pronunciation}
+                    backLang={backLang}
+                    backText={backText}
+                    backPronunciation={backPronunciation}
+                    onFlip={onFlip}
+                />
             </div>
 
             {/* I learn button */}
