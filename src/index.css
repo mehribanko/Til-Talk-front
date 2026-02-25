@@ -6,6 +6,28 @@
   background: transparent !important;
 }
 
+@keyframes swipe-out-right {
+  0% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(140%) translateY(-40px) rotate(12deg);
+    opacity: 0;
+  }
+}
+
+@keyframes card-enter {
+  0% {
+    transform: scale(0.88) translateY(24px);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
 @keyframes float-right {
   0%, 100% {
     transform: translateX(60px) translateY(-20px);

@@ -14,7 +14,6 @@ export const LearnWordMenu = () => {
     const [flippedCard, setFlippedCard] = useState(false);
     const currentWord = mockData[currentIdx];
 
-    const [learnedWords, setLearnedWords] = useState();
 
     const handleOnLearnClick = () => {
         setCurrentIdx((prev => prev +1));

@@ -21,6 +21,8 @@ const LearnWordCard = ({isFlipped, lang, text, pronunciation, backLang, backText
 
     const [tilt, setTilt] = useState<'left' | 'right' | null>(null);
     const [isFloating, setIsFloating] = useState(false);
+    const [isExiting, setIsExiting] = useState(false);
+    const [isEntering, setIsEntering] = useState(false);
 
     useEffect(() => {
         if (tilt === 'right') {
@@ -32,14 +34,34 @@ const LearnWordCard = ({isFlipped, lang, text, pronunciation, backLang, backText
         }
     }, [tilt]);
 
-    const cardStyle = isFloating
+    const handleLearnClick = () => {
+        if (isExiting) return;
+        setIsExiting(true);
+        setTilt(null);
+        setIsFloating(false);
+        setTimeout(() => {
+            setIsExiting(false);
+            onLearnClick();
+            setIsEntering(true);
+            setTimeout(() => setIsEntering(false), 500);
+        }, 400);
+    };
+
+    const cardStyle = isExiting
+        ? { animation: 'swipe-out-right 0.4s ease-in forwards', pointerEvents: 'none' as const }
+        : isEntering
+        ? { animation: 'card-enter 0.5s ease-out forwards' }
+        : isFloating
         ? getFloatAnimation()
         : getCardStyle(tilt);
 
     return (
         <div className="flex items-center gap-26">
             {/* Card */}
-            <div className="transition-all duration-300 ease-out" style={cardStyle}>
+            <div
+                className={isExiting || isEntering ? '' : 'transition-all duration-300 ease-out'}
+                style={cardStyle}
+            >
                 <Card
                     isFlipped={isFlipped}
                     lang={lang}
@@ -53,7 +75,7 @@ const LearnWordCard = ({isFlipped, lang, text, pronunciation, backLang, backText
             </div>
 
             {/* I learn button */}
-            <LearnButton setTilt={setTilt} onLearn={onLearnClick} />
+            <LearnButton setTilt={setTilt} onLearn={handleLearnClick} />
         </div>
     )
 }
