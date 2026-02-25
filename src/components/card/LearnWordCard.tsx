@@ -1,8 +1,8 @@
 
-import {getCardStyle} from "../../common/util/commonUtils";
+import {getCardStyle, getFloatAnimation} from "../../common/util/commonUtils";
 import {Card} from "./Card";
 import {LearnButton} from "../button/LearnButton";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 
 interface LearnWordCardProps {
     isFlipped: boolean;
@@ -19,12 +19,27 @@ interface LearnWordCardProps {
 
 const LearnWordCard = ({isFlipped, lang, text, pronunciation, backLang, backText, backPronunciation, onLearnClick, onFlip} : LearnWordCardProps) => {
 
-    const [tilt, setTilt]= useState<'left'| 'right' | null>(null);
+    const [tilt, setTilt] = useState<'left' | 'right' | null>(null);
+    const [isFloating, setIsFloating] = useState(false);
+
+    useEffect(() => {
+        if (tilt === 'right') {
+            const timer = setTimeout(() => setIsFloating(true), 300);
+            return () => {
+                clearTimeout(timer);
+                setIsFloating(false);
+            }
+        }
+    }, [tilt]);
+
+    const cardStyle = isFloating
+        ? getFloatAnimation()
+        : getCardStyle(tilt);
 
     return (
         <div className="flex items-center gap-26">
             {/* Card */}
-            <div className="transition-all duration-300 ease-out" style={getCardStyle(tilt)}>
+            <div className="transition-all duration-300 ease-out" style={cardStyle}>
                 <Card
                     isFlipped={isFlipped}
                     lang={lang}
