@@ -44,7 +44,7 @@ export const LearnWordMenu = () => {
     const handleSaveLearnedWords = (learnedWords : LearnedWordId[]) => {
         console.log("saved!", learnedWords);
     }
-    
+
     if(isComplete){
         return (
             <div> You learned all the words! </div>
