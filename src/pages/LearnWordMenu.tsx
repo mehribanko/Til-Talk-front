@@ -1,5 +1,5 @@
 import LearnWordCard from "../components/card/LearnWordCard"
-import { useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {mockData} from "../common/mockData/mockWordList.ts";
 import {StatCard} from "../components/card/StatCard.tsx";
 import {LANG_CONFIG} from "../common/constant/MenuData.ts";
@@ -17,6 +17,7 @@ export const LearnWordMenu = () => {
     const [flippedCard, setFlippedCard] = useState(false);
     const currentWord = mockData[currentIdx];
     const [learnedWords, setLearnedWords] = useState<LearnedWordId[]>([]);
+    const [dailyLimit, setDailyLimit] = useState<number | null>(null);
 
     const handleOnLearnClick = () => {
         const newLearnedWords = [...learnedWords, {id: currentWord.id}];
@@ -45,6 +46,21 @@ export const LearnWordMenu = () => {
         console.log("saved!", learnedWords);
     }
 
+    const handleFetchDailyLimit = useCallback(() =>   async () => {
+        try{
+            await new Promise( (resolve) => setTimeout(resolve, 100));
+            setDailyLimit(15);
+        }catch (error) {
+            console.error("Error fetching daily limit", error);
+        }
+    }, [])
+
+
+    useEffect(() => {
+        handleFetchDailyLimit();
+    }, [handleFetchDailyLimit]);
+
+
     if(isComplete){
         return (
             <div> You learned all the words! </div>
@@ -53,7 +69,7 @@ export const LearnWordMenu = () => {
 
     return (
             <div className="h-full flex flex-col">
-                <StatCard />
+                <StatCard dailyLimit = {dailyLimit} />
 
                 <div className="flex-1 flex items-center justify-center">
 
