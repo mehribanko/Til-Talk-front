@@ -8,6 +8,17 @@ type LearnedWordId = {
     id: number
 }
 
+type LearnedWordLevel = {
+    begLevel: number,
+    midLevel: number,
+    advLevel: number
+}
+
+const LEVEL_KEY_MAP = {
+    'Beginner': 'begLevel',
+    'Intermediate':  'midLevel',
+    'Advanced': 'advLevel'
+} as const;
 
 export const LearnWordMenu = () => {
 
@@ -16,23 +27,30 @@ export const LearnWordMenu = () => {
     const [learnLangType]= useState<'kor' | 'kk'>('kk');
     const [flippedCard, setFlippedCard] = useState(false);
     const currentWord = mockData[currentIdx];
-    const [learnedWords, setLearnedWords] = useState<LearnedWordId[]>([]);
     const [dailyLimit, setDailyLimit] = useState<number | null>(null);
+    const [newlyLearnWords, setNewLearnedWords] = useState<LearnedWordId[]>([]);
+    const [levelLearnWords, setLevelLearnWords] = useState<LearnedWordLevel>({
+        begLevel: 0,
+        midLevel: 0,
+        advLevel: 0
+    })
 
     const handleOnLearnClick = () => {
-        const newLearnedWords = [...learnedWords, {id: currentWord.id}];
+        setNewLearnedWords(prev => [...prev, {id: currentWord.id}]);
+        handleSaveLearnedWords({id: currentWord.id});
+        const levelKey = LEVEL_KEY_MAP[currentWord.level];
 
-        if(newLearnedWords.length >= 5) {
-            handleSaveLearnedWords(newLearnedWords);
-            setLearnedWords([]);
-        }else{
-            setLearnedWords(newLearnedWords);
-        }
+        setLevelLearnWords(prev => ({
+            ...prev,
+                [levelKey]: prev[levelKey] +1
+
+        }))
+
 
         setCurrentIdx((prev => prev +1));
         setFlippedCard(false);
-    }
 
+    }
 
     const handleOnFlipClick = () => {
         setFlippedCard(prev => !prev);
@@ -42,8 +60,8 @@ export const LearnWordMenu = () => {
     const langData = currentWord[config.key];
     const flipLangData = currentWord[config.flipKey];
 
-    const handleSaveLearnedWords = (learnedWords : LearnedWordId[]) => {
-        console.log("saved!", learnedWords);
+    const handleSaveLearnedWords = (learnWordId : LearnedWordId) => {
+        console.log("saved!", learnWordId);
     }
 
     const handleFetchDailyLimit = useCallback(() =>   async () => {
@@ -69,7 +87,7 @@ export const LearnWordMenu = () => {
 
     return (
             <div className="h-full flex flex-col">
-                <StatCard dailyLimit = {dailyLimit} />
+                <StatCard doneLearning={newlyLearnWords.length} dailyLimit = {dailyLimit} />
 
                 <div className="flex-1 flex items-center justify-center">
 

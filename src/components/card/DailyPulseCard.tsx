@@ -1,12 +1,12 @@
 interface DailyPulseCardProps {
-    done?: number;
-    total?: number;
+    done?: number | null;
+    total?: number | null;
 }
 
 const RADIUS = 34;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
-export const DailyPulseCard = ({ done = 8, total = 15 }: DailyPulseCardProps) => {
+export const DailyPulseCard = ({ done, total }: DailyPulseCardProps) => {
     const progress = done / total;
     const offset = CIRCUMFERENCE * (1 - progress);
     const remaining = total - done;
