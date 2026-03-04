@@ -2,23 +2,11 @@ import LearnWordCard from "../components/card/LearnWordCard"
 import {useCallback, useEffect, useState} from "react";
 import {mockData} from "../common/mockData/mockWordList.ts";
 import {StatCard} from "../components/card/StatCard.tsx";
-import {LANG_CONFIG} from "../common/constant/MenuData.ts";
+import {LANG_CONFIG, LEVEL_KEY_MAP} from "../common/constant/MenuData.ts";
+import type {LearnedWordId, LearnedWordLevel} from "../types/WordTypes.tsx";
 
-type LearnedWordId = {
-    id: number
-}
 
-type LearnedWordLevel = {
-    begLevel: number,
-    midLevel: number,
-    advLevel: number
-}
 
-const LEVEL_KEY_MAP = {
-    'Beginner': 'begLevel',
-    'Intermediate':  'midLevel',
-    'Advanced': 'advLevel'
-} as const;
 
 export const LearnWordMenu = () => {
 
@@ -87,7 +75,7 @@ export const LearnWordMenu = () => {
 
     return (
             <div className="h-full flex flex-col">
-                <StatCard doneLearning={newlyLearnWords.length} dailyLimit = {dailyLimit} />
+                <StatCard doneLearning={newlyLearnWords.length} dailyLimit = {dailyLimit} levelLearnWords = {levelLearnWords} />
 
                 <div className="flex-1 flex items-center justify-center">
 

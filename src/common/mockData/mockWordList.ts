@@ -1,4 +1,6 @@
-export const mockData = [
+import type {WordEntry} from "../../types/WordTypes.tsx";
+
+export const mockData: WordEntry[] = [
   {
     "id": 1,
     "level": "Beginner",

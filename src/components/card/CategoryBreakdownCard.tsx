@@ -1,3 +1,5 @@
+import React, { useEffect, useRef, useState } from "react";
+
 interface CategoryBreakdownCardProps {
     beg?: number;
     mid?: number;
@@ -5,45 +7,71 @@ interface CategoryBreakdownCardProps {
 }
 
 const categories = [
-    { label: 'Beginner',     key: 'beg', gradient: 'from-teal-400 to-emerald-500' },
-    { label: 'Intermediate', key: 'mid', gradient: 'from-amber-400 to-orange-400'  },
-    { label: 'Advanced',     key: 'adv', gradient: 'from-rose-400 to-pink-500'     },
+    { label: 'Beginner',     key: 'beg', activeBorder: 'border-teal-400',  activeNumber: 'text-teal-600',  pingColor: 'border-teal-400'  },
+    { label: 'Intermediate', key: 'mid', activeBorder: 'border-amber-400', activeNumber: 'text-amber-600', pingColor: 'border-amber-400' },
+    { label: 'Advanced',     key: 'adv', activeBorder: 'border-rose-400',  activeNumber: 'text-rose-500',  pingColor: 'border-rose-400'  },
 ] as const;
 
-export const CategoryBreakdownCard = ({ beg = 5, mid = 2, adv = 1 }: CategoryBreakdownCardProps) => {
+export const CategoryBreakdownCard = ({ beg = 0, mid = 0, adv = 0 }: CategoryBreakdownCardProps) => {
     const counts = { beg, mid, adv };
-    const max = Math.max(beg, mid, adv, 1);
+    const prevCounts = useRef({ beg, mid, adv });
+    const [animating, setAnimating] = useState<Set<string>>(new Set());
+
+    useEffect(() => {
+        const prev = prevCounts.current;
+        const triggered = new Set<string>();
+
+        if (beg > prev.beg) triggered.add('beg');
+        if (mid > prev.mid) triggered.add('mid');
+        if (adv > prev.adv) triggered.add('adv');
+
+        prevCounts.current = { beg, mid, adv };
+
+        if (triggered.size > 0) {
+            setAnimating(triggered);
+            const timer = setTimeout(() => setAnimating(new Set()), 600);
+            return () => clearTimeout(timer);
+        }
+    }, [beg, mid, adv]);
 
     return (
-        <div className="flex-1 bg-white rounded-2xl shadow-sm ring-1 ring-purple-100 px-5 py-4 flex flex-col justify-between overflow-hidden relative">
+        <div className="flex-1 bg-white rounded-2xl shadow-sm ring-1 ring-purple-100 px-4 py-4 flex flex-col overflow-hidden relative">
 
             <div className="absolute -bottom-5 -right-5 w-20 h-20 bg-purple-50 rounded-full blur-2xl opacity-60 pointer-events-none" />
 
-            {/* Today badge only */}
-            <div className="flex justify-end">
-                <span className="text-xs bg-purple-100 text-purple-600 font-bold px-3 py-1 rounded-full border border-purple-200">
-                    Today
-                </span>
-            </div>
-
-            {/* Bars */}
-            <div className="flex flex-col gap-2.5">
-                {categories.map(({ label, key, gradient }) => {
+            <div className="flex flex-1 items-center justify-around">
+                {categories.map(({ label, key, activeBorder, activeNumber, pingColor }, i) => {
                     const count = counts[key];
+                    const isActive = count > 0;
+                    const isAnimating = animating.has(key);
+
                     return (
-                        <div key={key} className="flex items-center gap-3">
-                            <span className="text-sm text-gray-500 font-medium w-24 shrink-0">{label}</span>
-                            <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                        <React.Fragment key={key}>
+                            {i > 0 && <div className="w-px h-12 bg-gray-100 self-center shrink-0" />}
+                            <div className="relative flex items-center justify-center">
+
+                                {/* Ping ring */}
+                                {isAnimating && (
+                                    <div
+                                        className={`absolute w-20 h-20 rounded-full border-2 ${pingColor}`}
+                                        style={{ animation: 'ring-ping 0.6s ease-out forwards' }}
+                                    />
+                                )}
+
+                                {/* Circle */}
                                 <div
-                                    className={`h-full rounded-full bg-gradient-to-r ${gradient}`}
-                                    style={{
-                                        width: `${(count / max) * 100}%`,
-                                        transition: 'width 0.6s ease-out',
-                                    }}
-                                />
+                                    className={`w-20 h-20 rounded-full border-2 flex flex-col items-center justify-center transition-colors duration-300 ${isActive ? activeBorder : 'border-gray-200'}`}
+                                    style={isAnimating ? { animation: 'circle-pop 0.5s ease-out' } : undefined}
+                                >
+                                    <span className={`text-2xl font-bold leading-none transition-colors duration-300 ${isActive ? activeNumber : 'text-gray-300'}`}>
+                                        {count}
+                                    </span>
+                                    <span className="text-[10px] font-medium leading-none mt-1 text-gray-400">
+                                        {label}
+                                    </span>
+                                </div>
                             </div>
-                            <span className="text-xs font-bold text-gray-600 shrink-0">{count} words</span>
-                        </div>
+                        </React.Fragment>
                     );
                 })}
             </div>
