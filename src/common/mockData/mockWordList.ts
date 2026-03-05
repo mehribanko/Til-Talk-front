@@ -160,5 +160,167 @@ export const mockData: WordEntry[] = [
       "audio_url": "/audio/kk/family.mp3"
     },
     "part_of_speech": "Noun"
+  },
+  {
+    "id": 11,
+    "level": "Intermediate",
+    "category": "Daily Life",
+    "korean": {
+      "word": "약속",
+      "romanization": "Yaksok",
+      "audio_url": "/audio/kr/appointment.mp3"
+    },
+    "karakalpak": {
+      "word": "Wáde / Shartlesiw",
+      "romanization": "Wade / Shartlesiw",
+      "audio_url": "/audio/kk/appointment.mp3"
+    },
+    "part_of_speech": "Noun"
+  },
+  {
+    "id": 12,
+    "level": "Intermediate",
+    "category": "Emotion",
+    "korean": {
+      "word": "행복하다",
+      "romanization": "Haengbok-hada",
+      "audio_url": "/audio/kr/happy.mp3"
+    },
+    "karakalpak": {
+      "word": "Baxıtlı bolıw",
+      "romanization": "Baxitli boliw",
+      "audio_url": "/audio/kk/happy.mp3"
+    },
+    "part_of_speech": "Verb"
+  },
+  {
+    "id": 13,
+    "level": "Intermediate",
+    "category": "Work",
+    "korean": {
+      "word": "준비하다",
+      "romanization": "Junbi-hada",
+      "audio_url": "/audio/kr/prepare.mp3"
+    },
+    "karakalpak": {
+      "word": "Tayarlanıw",
+      "romanization": "Tayarlaniw",
+      "audio_url": "/audio/kk/prepare.mp3"
+    },
+    "part_of_speech": "Verb"
+  },
+  {
+    "id": 14,
+    "level": "Intermediate",
+    "category": "Society",
+    "korean": {
+      "word": "문화",
+      "romanization": "Munhwa",
+      "audio_url": "/audio/kr/culture.mp3"
+    },
+    "karakalpak": {
+      "word": "Mádeniyat",
+      "romanization": "Madeniyat",
+      "audio_url": "/audio/kk/culture.mp3"
+    },
+    "part_of_speech": "Noun"
+  },
+  {
+    "id": 15,
+    "level": "Intermediate",
+    "category": "Daily Life",
+    "korean": {
+      "word": "결정하다",
+      "romanization": "Gyeoljeong-hada",
+      "audio_url": "/audio/kr/decide.mp3"
+    },
+    "karakalpak": {
+      "word": "Qarar qabıl etiw",
+      "romanization": "Qarar qabil etiw",
+      "audio_url": "/audio/kk/decide.mp3"
+    },
+    "part_of_speech": "Verb"
+  },
+
+  // ADVANCED LEVEL
+  {
+    "id": 16,
+    "level": "Advanced",
+    "category": "Economy",
+    "korean": {
+      "word": "경제성장",
+      "romanization": "Gyeongjesongjang",
+      "audio_url": "/audio/kr/economy.mp3"
+    },
+    "karakalpak": {
+      "word": "Ekonomikalıq ósim",
+      "romanization": "Ekonomikaliq osim",
+      "audio_url": "/audio/kk/economy.mp3"
+    },
+    "part_of_speech": "Noun"
+  },
+  {
+    "id": 17,
+    "level": "Advanced",
+    "category": "Environment",
+    "korean": {
+      "word": "환경보호",
+      "romanization": "Hwangyeongboho",
+      "audio_url": "/audio/kr/environment.mp3"
+    },
+    "karakalpak": {
+      "word": "Atrap-ortalıqtı qorǵaw",
+      "romanization": "Atrap-ortaliqti qorgaw",
+      "audio_url": "/audio/kk/environment.mp3"
+    },
+    "part_of_speech": "Noun"
+  },
+  {
+    "id": 18,
+    "level": "Advanced",
+    "category": "Law/Admin",
+    "korean": {
+      "word": "거주신고",
+      "romanization": "Geojusingo",
+      "audio_url": "/audio/kr/residence.mp3"
+    },
+    "karakalpak": {
+      "word": "Jasaw jayın dizimnen ótkeriw",
+      "romanization": "Jasaw jayin dizimnen otkeriw",
+      "audio_url": "/audio/kk/residence.mp3"
+    },
+    "part_of_speech": "Noun"
+  },
+  {
+    "id": 19,
+    "level": "Advanced",
+    "category": "Social Issues",
+    "korean": {
+      "word": "다문화가정",
+      "romanization": "Damunhwagajeong",
+      "audio_url": "/audio/kr/multicultural.mp3"
+    },
+    "karakalpak": {
+      "word": "Kóp mádeniyatlı shańaraq",
+      "romanization": "Kop madeniyatli shanaraq",
+      "audio_url": "/audio/kk/multicultural.mp3"
+    },
+    "part_of_speech": "Noun"
+  },
+  {
+    "id": 20,
+    "level": "Advanced",
+    "category": "Philosophy",
+    "korean": {
+      "word": "가치관",
+      "romanization": "Gachigwan",
+      "audio_url": "/audio/kr/values.mp3"
+    },
+    "karakalpak": {
+      "word": "Dúnyaǵaraq / Qádiriyat",
+      "romanization": "Dunyagaraq / Qadiriyat",
+      "audio_url": "/audio/kk/values.mp3"
+    },
+    "part_of_speech": "Noun"
   }
 ]

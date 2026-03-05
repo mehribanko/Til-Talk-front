@@ -29,3 +29,10 @@ export type LearnedWordLevel = {
     midLevel: number,
     advLevel: number
 }
+
+
+export type WordsByLevel = {
+    begWords: WordEntry[],
+    intWords: WordEntry[],
+    advWords: WordEntry[]
+}

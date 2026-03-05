@@ -3,7 +3,8 @@ import {useCallback, useEffect, useState} from "react";
 import {mockData} from "../common/mockData/mockWordList.ts";
 import {StatCard} from "../components/card/StatCard.tsx";
 import {LANG_CONFIG, LEVEL_KEY_MAP} from "../common/constant/MenuData.ts";
-import type {LearnedWordId, LearnedWordLevel} from "../types/WordTypes.tsx";
+import type {LearnedWordId, LearnedWordLevel, WordsByLevel} from "../types/WordTypes.tsx";
+import {LevelFilterButtons} from "../components/button/LevelFilterButtons.tsx";
 
 
 
@@ -22,6 +23,11 @@ export const LearnWordMenu = () => {
         midLevel: 0,
         advLevel: 0
     })
+    const [wordsByLevel, setWordsByLevel] = useState<WordsByLevel>({
+        begWords: mockData.filter(word => word.level == 'Beginner'),
+        intWords: mockData.filter(word => word.level == 'Intermediate'),
+        advWords: mockData.filter(word => word.level == 'Advanced'),
+    })
 
     const handleOnLearnClick = () => {
         setNewLearnedWords(prev => [...prev, {id: currentWord.id}]);
@@ -34,7 +40,6 @@ export const LearnWordMenu = () => {
 
         }))
 
-
         setCurrentIdx((prev => prev +1));
         setFlippedCard(false);
 
@@ -43,6 +48,7 @@ export const LearnWordMenu = () => {
     const handleOnFlipClick = () => {
         setFlippedCard(prev => !prev);
     }
+
 
     const config = LANG_CONFIG[learnLangType];
     const langData = currentWord[config.key];
@@ -77,6 +83,7 @@ export const LearnWordMenu = () => {
             <div className="h-full flex flex-col">
                 <StatCard doneLearning={newlyLearnWords.length} dailyLimit = {dailyLimit} levelLearnWords = {levelLearnWords} />
 
+                <LevelFilterButtons onLevelFilterCLick = {setWordsByLevel} />
                 <div className="flex-1 flex items-center justify-center">
 
                    <LearnWordCard
