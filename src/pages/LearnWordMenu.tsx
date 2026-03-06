@@ -1,5 +1,5 @@
 import LearnWordCard from "../components/card/LearnWordCard"
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import {mockData} from "../common/mockData/mockWordList.ts";
 import {StatCard} from "../components/card/StatCard.tsx";
 import {LANG_CONFIG, LEVEL_KEY_MAP, LEVEL_TO_WORDS_KEY} from "../common/constant/MenuData.ts";
@@ -19,6 +19,16 @@ export const LearnWordMenu = () => {
     })
     const activeLearnWords = defaultWordsByLevel[LEVEL_TO_WORDS_KEY[defaultWordLevel]];
 
+
+    const mainCardRef = useRef<HTMLDivElement>(null);
+    const [isReceiving, setIsReceiving] = useState(false);
+
+    const handleDealStart = () => {
+        setTimeout(() => {
+            setIsReceiving(true);
+            setTimeout(() => setIsReceiving(false), 250);
+        }, 300);
+    };
 
     const [currentIdx, setCurrentIdx] = useState(0);
     const isComplete = currentIdx === activeLearnWords.length;
@@ -97,20 +107,30 @@ export const LearnWordMenu = () => {
             <div className="h-full flex flex-col">
                 <StatCard doneLearning={newlyLearnWords.length} dailyLimit = {dailyLimit} levelLearnWords = {levelLearnWords} />
 
-                <LevelFilterButtons onLevelFilterCLick = {handleOnLevelFilterCLick} />
-                <div className="flex-1 flex items-center justify-center">
+                <div className="flex-1 flex items-center">
+                    <div className="pl-6">
+                        <LevelFilterButtons
+                            onLevelFilterCLick={handleOnLevelFilterCLick}
+                            targetRef={mainCardRef}
+                            onDealStart={handleDealStart}
+                        />
+                    </div>
 
-                   <LearnWordCard
-                        isFlipped={flippedCard}
-                        lang={config.label}
-                        text={langData.word}
-                        pronunciation={langData.romanization}
-                        backLang={config.flipLabel}
-                        backText={flipLangData.word}
-                        backPronunciation={flipLangData.romanization}
-                        onLearnClick={handleOnLearnClick}
-                        onFlip={handleOnFlipClick} />
-
+                    <div
+                        ref={mainCardRef}
+                        className={`flex-1 flex items-center justify-center transition-transform duration-150 ${isReceiving ? 'scale-[1.03]' : 'scale-100'}`}
+                    >
+                        <LearnWordCard
+                            isFlipped={flippedCard}
+                            lang={config.label}
+                            text={langData.word}
+                            pronunciation={langData.romanization}
+                            backLang={config.flipLabel}
+                            backText={flipLangData.word}
+                            backPronunciation={flipLangData.romanization}
+                            onLearnClick={handleOnLearnClick}
+                            onFlip={handleOnFlipClick} />
+                    </div>
                 </div>
         </div>
     )
