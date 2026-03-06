@@ -1,14 +1,16 @@
+import type {WordLevel} from "../../types/WordTypes.tsx";
+
 interface LevelFilterButtonsProps  {
-    setWordsByLevel : () => void;
+    onLevelFilterCLick : (level: WordLevel) => void;
 }
 
-export const LevelFilterButtons  = ( {setWordsByLevel} : LevelFilterButtonsProps) => {
+export const LevelFilterButtons  = ( {onLevelFilterCLick} : LevelFilterButtonsProps) => {
 
     return (
         <div>
-            <button onClick={setWordsByLevel('Beginner')}>Beginner</button>
-            <button onClick={setWordsByLevel('Intermediate')}>Intermediate</button>
-            <button onClick={setWordsByLevel('Advanced')}>Advanced</button>
+            <button onClick={() => onLevelFilterCLick('Beginner')}>Beginner</button>
+            <button onClick={() => onLevelFilterCLick('Intermediate')}>Intermediate</button>
+            <button onClick={() => onLevelFilterCLick('Advanced')}>Advanced</button>
           </div>
     )
 }

@@ -17,3 +17,10 @@ export const LEVEL_KEY_MAP = {
     'Intermediate':  'midLevel',
     'Advanced': 'advLevel'
 } as const;
+
+
+export const LEVEL_TO_WORDS_KEY = {
+    Beginner:'begWords',
+    Intermediate: 'intWords',
+    Advanced: 'advWords'
+} as const;
