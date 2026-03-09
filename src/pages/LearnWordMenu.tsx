@@ -5,6 +5,7 @@ import {StatCard} from "../components/card/StatCard.tsx";
 import {LANG_CONFIG, LEVEL_KEY_MAP, LEVEL_TO_WORDS_KEY} from "../common/constant/MenuData.ts";
 import type {LearnedWordId, LearnedWordLevel, WordLevel, WordsByLevel} from "../types/WordTypes.tsx";
 import {LevelFilterButtons} from "../components/button/LevelFilterButtons.tsx";
+import {useDailyLearnCountStore} from "../hooks/state/useDailyLearnCountStore.ts";
 
 
 
@@ -36,7 +37,8 @@ export const LearnWordMenu = () => {
     const [flippedCard, setFlippedCard] = useState(false);
     const currentWord = activeLearnWords[currentIdx];
     const [dailyLimit, setDailyLimit] = useState<number | null>(null);
-    const [newlyLearnWords, setNewLearnedWords] = useState<LearnedWordId[]>([]);
+    const newlyLearnWords = useDailyLearnCountStore(state => state.newlyLearnWords);
+    const addNewlyLearnWords = useDailyLearnCountStore(state => state.addNewlyLearnWord);
     const [levelLearnWords, setLevelLearnWords] = useState<LearnedWordLevel>({
         begLevel: 0,
         midLevel: 0,
@@ -44,7 +46,7 @@ export const LearnWordMenu = () => {
     })
 
     const handleOnLearnClick = () => {
-        setNewLearnedWords(prev => [...prev, {id: currentWord.id}]);
+        addNewlyLearnWords({id: currentWord.id});
         handleSaveLearnedWords({id: currentWord.id});
         const levelKey = LEVEL_KEY_MAP[currentWord.level];
 
