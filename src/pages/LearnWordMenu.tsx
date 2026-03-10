@@ -6,6 +6,7 @@ import {LANG_CONFIG, LEVEL_KEY_MAP, LEVEL_TO_WORDS_KEY} from "../common/constant
 import type {LearnedWordId, LearnedWordLevel, WordLevel, WordsByLevel} from "../types/WordTypes.tsx";
 import {LevelFilterButtons} from "../components/button/LevelFilterButtons.tsx";
 import {useDailyLearnCountStore} from "../hooks/state/useDailyLearnCountStore.ts";
+import {DailyWordDone} from "../components/card/DailyWordDone.tsx";
 
 
 
@@ -46,6 +47,8 @@ export const LearnWordMenu = () => {
     })
 
     const handleOnLearnClick = () => {
+
+
         addNewlyLearnWords({id: currentWord.id});
         handleSaveLearnedWords({id: currentWord.id});
         const levelKey = LEVEL_KEY_MAP[currentWord.level];
@@ -53,18 +56,23 @@ export const LearnWordMenu = () => {
         setLevelLearnWords(prev => ({
             ...prev,
                 [levelKey]: prev[levelKey] +1
-
         }))
 
         setCurrentIdx((prev => prev +1));
         setFlippedCard(false);
+
+        console.log("daily learn words ----> ", newlyLearnWords);
+
+        if(newlyLearnWords.length === dailyLimit) {
+            displayDailyWordDoneContent();
+        }
+
 
     }
 
     const handleOnFlipClick = () => {
         setFlippedCard(prev => !prev);
     }
-
 
     const handleOnLevelFilterCLick = (wordLevel: WordLevel) => {
         setDefaultWordLevel(wordLevel);
@@ -87,12 +95,17 @@ export const LearnWordMenu = () => {
     const handleFetchDailyLimit = useCallback(() =>   async () => {
         try{
             await new Promise( (resolve) => setTimeout(resolve, 100));
-            setDailyLimit(15);
+            setDailyLimit(5);
         }catch (error) {
             console.error("Error fetching daily limit", error);
         }
     }, [])
 
+    const displayDailyWordDoneContent = () => {
+        return (
+            <DailyWordDone />
+        )
+    }
 
     useEffect(() => {
         handleFetchDailyLimit();

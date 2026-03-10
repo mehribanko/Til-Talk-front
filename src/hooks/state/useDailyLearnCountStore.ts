@@ -1,5 +1,6 @@
 
 import {create} from 'zustand';
+import {persist} from 'zustand/middleware';
 import type {LearnedWordId} from "../../types/WordTypes.tsx";
 
 type UseDailyLearnCountStoreProps = {
@@ -8,14 +9,17 @@ type UseDailyLearnCountStoreProps = {
     resetNewlyLearnWords: () => void;
 }
 
-export const useDailyLearnCountStore = create<UseDailyLearnCountStoreProps>()((set) => ({
+export const useDailyLearnCountStore = create<UseDailyLearnCountStoreProps>()(
+    persist(
+        (set) => ({
+            newlyLearnWords: [],
 
-    newlyLearnWords: [],
+            addNewlyLearnWord: (newWord) => set((state) => ({
+                newlyLearnWords: [...state.newlyLearnWords, newWord]
+            })),
 
-    addNewlyLearnWord: (newWord) => set(state => ({
-        newlyLearnWords: [...state.newlyLearnWords, newWord]
-    })),
-
-    resetNewlyLearnWords: () => set({newlyLearnWords: []})
-
-}))
+            resetNewlyLearnWords: () => set({ newlyLearnWords: [] }),
+        }),
+        { name: 'daily-learn-count' }
+    )
+)
