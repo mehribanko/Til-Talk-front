@@ -46,9 +46,9 @@ export const LearnWordMenu = () => {
         advLevel: 0
     })
 
+    const isDailyLimitReached = newlyLearnWords.length >= (dailyLimit ?? Infinity);
+
     const handleOnLearnClick = () => {
-
-
         addNewlyLearnWords({id: currentWord.id});
         handleSaveLearnedWords({id: currentWord.id});
         const levelKey = LEVEL_KEY_MAP[currentWord.level];
@@ -60,13 +60,6 @@ export const LearnWordMenu = () => {
 
         setCurrentIdx((prev => prev +1));
         setFlippedCard(false);
-
-        console.log("daily learn words ----> ", newlyLearnWords);
-
-        if(newlyLearnWords.length === dailyLimit) {
-            displayDailyWordDoneContent();
-        }
-
 
     }
 
@@ -92,7 +85,7 @@ export const LearnWordMenu = () => {
         console.log("saved!", learnWordId);
     }
 
-    const handleFetchDailyLimit = useCallback(() =>   async () => {
+    const handleFetchDailyLimit = useCallback(async () =>  {
         try{
             await new Promise( (resolve) => setTimeout(resolve, 100));
             setDailyLimit(5);
@@ -101,11 +94,6 @@ export const LearnWordMenu = () => {
         }
     }, [])
 
-    const displayDailyWordDoneContent = () => {
-        return (
-            <DailyWordDone />
-        )
-    }
 
     useEffect(() => {
         handleFetchDailyLimit();
@@ -117,6 +105,18 @@ export const LearnWordMenu = () => {
             <div> You learned all the words! </div>
         )
     }
+
+    if (isDailyLimitReached) {
+        return (
+            <div className="h-full flex flex-col">
+                <StatCard doneLearning={newlyLearnWords.length} dailyLimit={dailyLimit} levelLearnWords={levelLearnWords} />
+                <div className="flex-1 flex items-center justify-center">
+                    <DailyWordDone />
+                </div>
+            </div>
+        )
+    }
+
 
     return (
             <div className="h-full flex flex-col">
@@ -136,15 +136,15 @@ export const LearnWordMenu = () => {
                         className={`flex-1 flex items-center justify-center transition-transform duration-150 ${isReceiving ? 'scale-[1.03]' : 'scale-100'}`}
                     >
                         <LearnWordCard
-                            isFlipped={flippedCard}
-                            lang={config.label}
-                            text={langData.word}
-                            pronunciation={langData.romanization}
-                            backLang={config.flipLabel}
-                            backText={flipLangData.word}
-                            backPronunciation={flipLangData.romanization}
-                            onLearnClick={handleOnLearnClick}
-                            onFlip={handleOnFlipClick} />
+                                isFlipped={flippedCard}
+                                lang={config.label}
+                                text={langData.word}
+                                pronunciation={langData.romanization}
+                                backLang={config.flipLabel}
+                                backText={flipLangData.word}
+                                backPronunciation={flipLangData.romanization}
+                                onLearnClick={handleOnLearnClick}
+                                onFlip={handleOnFlipClick} />
                     </div>
                 </div>
         </div>
