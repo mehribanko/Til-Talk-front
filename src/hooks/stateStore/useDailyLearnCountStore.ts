@@ -1,7 +1,7 @@
-
-import {create} from 'zustand';
-import {persist} from 'zustand/middleware';
 import type {LearnedWordId} from "../../types/WordTypes.tsx";
+import {create} from "zustand/react";
+import {persist} from "zustand/middleware";
+
 
 type UseDailyLearnCountStoreProps = {
     newlyLearnWords: LearnedWordId[];

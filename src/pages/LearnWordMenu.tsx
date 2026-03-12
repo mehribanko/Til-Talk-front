@@ -5,25 +5,48 @@ import {StatCard} from "../components/card/StatCard.tsx";
 import {LANG_CONFIG, LEVEL_KEY_MAP, LEVEL_TO_WORDS_KEY} from "../common/constant/MenuData.ts";
 import type {LearnedWordId, LearnedWordLevel, WordLevel, WordsByLevel} from "../types/WordTypes.tsx";
 import {LevelFilterButtons} from "../components/button/LevelFilterButtons.tsx";
-import {useDailyLearnCountStore} from "../hooks/state/useDailyLearnCountStore.ts";
+import {useDailyLearnCountStore} from "../hooks/stateStore/useDailyLearnCountStore.ts";
 import {DailyWordDone} from "../components/card/DailyWordDone.tsx";
+import {useLevelLearnWordsStore} from "../hooks/stateStore/useLevelLearnWordsStore.tsx";
 
 
 
 
 export const LearnWordMenu = () => {
 
+    // card animation
+    const mainCardRef = useRef<HTMLDivElement>(null);
+    const [isReceiving, setIsReceiving] = useState(false);
+    const [flippedCard, setFlippedCard] = useState(false);
+
+    // default language is set to 'Karakalpak'
+    const [learnLangType]= useState<'kor' | 'kk'>('kk');
+    // daily limit of words that user can learn is set dynamically
+    const [dailyLimit, setDailyLimit] = useState<number | null>(null);
+    // default word category is always set to 'Beginner'
     const [defaultWordLevel, setDefaultWordLevel] = useState<WordLevel>('Beginner');
+    // 'Beginner' level words are shown by default
     const [defaultWordsByLevel, setDefaultWordsByLevel] = useState<WordsByLevel>({
         begWords: mockData.filter(word => word.level == defaultWordLevel),
         intWords: [],
         advWords: []
     })
+
+    const newlyLearnWords = useDailyLearnCountStore(state => state.newlyLearnWords);
+    const addNewlyLearnWords = useDailyLearnCountStore(state => state.addNewlyLearnWord);
+    const levelLearnWords  = useLevelLearnWordsStore(state => state.levelLearnWords);
+    const addLevelLearnWords = useLevelLearnWordsStore(state => state.addLeveLearnWords);
+
+    // currently shown words for a user to learn
     const activeLearnWords = defaultWordsByLevel[LEVEL_TO_WORDS_KEY[defaultWordLevel]];
 
+    const [currentIdx, setCurrentIdx] = useState(0);
+    const currentWord = activeLearnWords[currentIdx];
 
-    const mainCardRef = useRef<HTMLDivElement>(null);
-    const [isReceiving, setIsReceiving] = useState(false);
+    // status of daily limit of words
+    const isDailyLimitReached = newlyLearnWords.length >= (dailyLimit ?? Infinity);
+
+
 
     const handleDealStart = () => {
         setTimeout(() => {
@@ -32,31 +55,11 @@ export const LearnWordMenu = () => {
         }, 300);
     };
 
-    const [currentIdx, setCurrentIdx] = useState(0);
-    const isComplete = currentIdx === activeLearnWords.length;
-    const [learnLangType]= useState<'kor' | 'kk'>('kk');
-    const [flippedCard, setFlippedCard] = useState(false);
-    const currentWord = activeLearnWords[currentIdx];
-    const [dailyLimit, setDailyLimit] = useState<number | null>(null);
-    const newlyLearnWords = useDailyLearnCountStore(state => state.newlyLearnWords);
-    const addNewlyLearnWords = useDailyLearnCountStore(state => state.addNewlyLearnWord);
-    const [levelLearnWords, setLevelLearnWords] = useState<LearnedWordLevel>({
-        begLevel: 0,
-        midLevel: 0,
-        advLevel: 0
-    })
-
-    const isDailyLimitReached = newlyLearnWords.length >= (dailyLimit ?? Infinity);
-
     const handleOnLearnClick = () => {
         addNewlyLearnWords({id: currentWord.id});
         handleSaveLearnedWords({id: currentWord.id});
         const levelKey = LEVEL_KEY_MAP[currentWord.level];
-
-        setLevelLearnWords(prev => ({
-            ...prev,
-                [levelKey]: prev[levelKey] +1
-        }))
+        addLevelLearnWords(levelKey);
 
         setCurrentIdx((prev => prev +1));
         setFlippedCard(false);
@@ -99,12 +102,6 @@ export const LearnWordMenu = () => {
         handleFetchDailyLimit();
     }, [handleFetchDailyLimit]);
 
-
-    if(isComplete){
-        return (
-            <div> You learned all the words! </div>
-        )
-    }
 
     if (isDailyLimitReached) {
         return (
