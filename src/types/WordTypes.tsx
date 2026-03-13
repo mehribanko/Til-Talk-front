@@ -1,7 +1,7 @@
 
 export type WordLevel = 'Beginner' | 'Intermediate' | 'Advanced';
 
-export type WordCategory = 'Greetings' | 'Numbers' | 'Food' | 'Travel';
+export type WordCategory = 'Greetings' | 'Numbers' | 'Food' | 'Travel' | 'Education' | 'People' | 'Home' | 'Daily Life' | 'Law/Admin';
 
 export type PartOfSpeech = 'Greeting' | 'Noun' | 'Verb' | 'Adjective';
 

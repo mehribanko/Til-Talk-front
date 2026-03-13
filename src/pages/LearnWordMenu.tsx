@@ -3,7 +3,7 @@ import {useCallback, useEffect, useRef, useState} from "react";
 import {mockData} from "../common/mockData/mockWordList.ts";
 import {StatCard} from "../components/card/StatCard.tsx";
 import {LANG_CONFIG, LEVEL_KEY_MAP, LEVEL_TO_WORDS_KEY} from "../common/constant/MenuData.ts";
-import type {LearnedWordId, LearnedWordLevel, WordLevel, WordsByLevel} from "../types/WordTypes.tsx";
+import type {LearnedWordId, WordLevel, WordsByLevel} from "../types/WordTypes.tsx";
 import {LevelFilterButtons} from "../components/button/LevelFilterButtons.tsx";
 import {useDailyLearnCountStore} from "../hooks/stateStore/useDailyLearnCountStore.ts";
 import {DailyWordDone} from "../components/card/DailyWordDone.tsx";
@@ -40,9 +40,10 @@ export const LearnWordMenu = () => {
     // currently shown words for a user to learn
     const activeLearnWords = defaultWordsByLevel[LEVEL_TO_WORDS_KEY[defaultWordLevel]];
 
-    const [currentIdx, setCurrentIdx] = useState(0);
+    // current word index according to word level
+    const currentIdx = levelLearnWords[LEVEL_KEY_MAP[defaultWordLevel]];
+    // active word based on current index
     const currentWord = activeLearnWords[currentIdx];
-
     // status of daily limit of words
     const isDailyLimitReached = newlyLearnWords.length >= (dailyLimit ?? Infinity);
 
@@ -60,8 +61,6 @@ export const LearnWordMenu = () => {
         handleSaveLearnedWords({id: currentWord.id});
         const levelKey = LEVEL_KEY_MAP[currentWord.level];
         addLevelLearnWords(levelKey);
-
-        setCurrentIdx((prev => prev +1));
         setFlippedCard(false);
 
     }
@@ -101,7 +100,7 @@ export const LearnWordMenu = () => {
     useEffect(() => {
         handleFetchDailyLimit();
     }, [handleFetchDailyLimit]);
-
+    
 
     if (isDailyLimitReached) {
         return (
