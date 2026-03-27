@@ -1,5 +1,6 @@
-import LearnWordCard from "../components/card/LearnWordCard"
 import {useCallback, useEffect, useRef, useState} from "react";
+import {useQuery} from '@tanstack/react-query'
+import LearnWordCard from "../components/card/LearnWordCard"
 import {mockData} from "../common/mockData/mockWordList.ts";
 import {StatCard} from "../components/card/StatCard.tsx";
 import {LANG_CONFIG, LEVEL_KEY_MAP, LEVEL_TO_WORDS_KEY} from "../common/constant/MenuData.ts";
@@ -48,6 +49,14 @@ export const LearnWordMenu = () => {
     const isDailyLimitReached = newlyLearnWords.length >= (dailyLimit ?? Infinity);
 
 
+    // tanstack query client
+    const { isPending, error, data } = useQuery({
+        queryKey: ['repoData'],
+        queryFn: () =>
+            fetch('https://api.github.com/repos/TanStack/query').then((res) =>
+                res.json(),
+            ),
+    })
 
     const handleDealStart = () => {
         setTimeout(() => {
@@ -97,8 +106,14 @@ export const LearnWordMenu = () => {
     }, [])
 
 
+    const handleFetchDailyLearnWords = async (dailyLimit: any) => {
+        return;
+    }
+
+
     useEffect(() => {
         handleFetchDailyLimit();
+        handleFetchDailyLearnWords(dailyLimit);
     }, [handleFetchDailyLimit]);
     
 
