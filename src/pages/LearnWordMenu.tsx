@@ -9,11 +9,15 @@ import {LevelFilterButtons} from "../components/button/LevelFilterButtons.tsx";
 import {useDailyLearnCountStore} from "../hooks/stateStore/useDailyLearnCountStore.ts";
 import {DailyWordDone} from "../components/card/DailyWordDone.tsx";
 import {useLevelLearnWordsStore} from "../hooks/stateStore/useLevelLearnWordsStore.tsx";
+import {useLearnWordsQuery} from "../hooks/queries/useWordsQuery.tsx";
 
 
 
 
 export const LearnWordMenu = () => {
+
+    const {data: words, isPending, error} = useLearnWordsQuery();
+    console.log("words---->", words);
 
     // card animation
     const mainCardRef = useRef<HTMLDivElement>(null);
@@ -49,14 +53,7 @@ export const LearnWordMenu = () => {
     const isDailyLimitReached = newlyLearnWords.length >= (dailyLimit ?? Infinity);
 
 
-    // tanstack query client
-    const { isPending, error, data } = useQuery({
-        queryKey: ['repoData'],
-        queryFn: () =>
-            fetch('https://api.github.com/repos/TanStack/query').then((res) =>
-                res.json(),
-            ),
-    })
+
 
     const handleDealStart = () => {
         setTimeout(() => {
@@ -106,14 +103,10 @@ export const LearnWordMenu = () => {
     }, [])
 
 
-    const handleFetchDailyLearnWords = async (dailyLimit: any) => {
-        return;
-    }
 
 
     useEffect(() => {
         handleFetchDailyLimit();
-        handleFetchDailyLearnWords(dailyLimit);
     }, [handleFetchDailyLimit]);
     
 
