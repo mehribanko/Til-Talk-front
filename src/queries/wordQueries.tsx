@@ -1,8 +1,9 @@
-const apiUrl = "/api/v1/learn"
+import axiosInstance from "../lib/axiosInstance.tsx";
+import {transformApiData} from "../common/util/commonUtils.tsx";
+
 const fetchLearnWords = async () => {
-    const res = await fetch(`${apiUrl}/daily`);
-    if(!res.ok) throw new Error('Failed to fetch words')
-    return res.json();
+    const res = await axiosInstance.get(`/learn/daily`);
+    return transformApiData(res.data);
 }
 
 

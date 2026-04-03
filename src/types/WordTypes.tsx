@@ -36,3 +36,17 @@ export type WordsByLevel = {
     intWords: WordEntry[],
     advWords: WordEntry[]
 }
+
+
+export type ApiWordItemType = {
+    wordNo: number,
+    level: WordLevel,
+    categoryNo: WordCategory,
+    korWord: string,
+    korRomanization: string,
+    korAudioUrl: string,
+    kkWord: string,
+    kkRomanization: string;
+    kkAudioUrl: string;
+    partOfSpeech: PartOfSpeech,
+}

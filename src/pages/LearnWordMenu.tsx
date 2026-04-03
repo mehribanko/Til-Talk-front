@@ -32,7 +32,7 @@ export const LearnWordMenu = () => {
     const [defaultWordLevel, setDefaultWordLevel] = useState<WordLevel>('Beginner');
     // 'Beginner' level words are shown by default
     const [defaultWordsByLevel, setDefaultWordsByLevel] = useState<WordsByLevel>({
-        begWords: mockData.filter(word => word.level == defaultWordLevel),
+        begWords: [],
         intWords: [],
         advWords: []
     })
@@ -108,7 +108,15 @@ export const LearnWordMenu = () => {
     useEffect(() => {
         handleFetchDailyLimit();
     }, [handleFetchDailyLimit]);
-    
+
+    useEffect(() => {
+        if(!words) return;
+        setDefaultWordsByLevel( {
+            begWords: words.filter(word => word.level === 'Beginner'),
+            intWords: words.filter(word => word.level === 'Intermediate'),
+            advWords: words.filter(word => word.level === 'Advanced')
+        })
+    }, [words]);
 
     if (isDailyLimitReached) {
         return (
