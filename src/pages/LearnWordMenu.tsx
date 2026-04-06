@@ -1,7 +1,5 @@
-import {useCallback, useEffect, useRef, useState} from "react";
-import {useQuery} from '@tanstack/react-query'
+import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import LearnWordCard from "../components/card/LearnWordCard"
-import {mockData} from "../common/mockData/mockWordList.ts";
 import {StatCard} from "../components/card/StatCard.tsx";
 import {LANG_CONFIG, LEVEL_KEY_MAP, LEVEL_TO_WORDS_KEY} from "../common/constant/MenuData.ts";
 import type {LearnedWordId, WordLevel, WordsByLevel} from "../types/WordTypes.tsx";
@@ -30,12 +28,14 @@ export const LearnWordMenu = () => {
     const [dailyLimit, setDailyLimit] = useState<number | null>(null);
     // default word category is always set to 'Beginner'
     const [defaultWordLevel, setDefaultWordLevel] = useState<WordLevel>('Beginner');
-    // 'Beginner' level words are shown by default
-    const [defaultWordsByLevel, setDefaultWordsByLevel] = useState<WordsByLevel>({
-        begWords: [],
-        intWords: [],
-        advWords: []
-    })
+    const wordsByLevel = useMemo<WordsByLevel>(() => {
+        if (!words) return { begWords: [], intWords: [], advWords: [] };
+        return {
+            begWords: words.filter(word => word.level === 'Beginner'),
+            intWords: words.filter(word => word.level === 'Intermediate'),
+            advWords: words.filter(word => word.level === 'Advanced')
+        };
+    }, [words]);
 
     const newlyLearnWords = useDailyLearnCountStore(state => state.newlyLearnWords);
     const addNewlyLearnWords = useDailyLearnCountStore(state => state.addNewlyLearnWord);
@@ -43,7 +43,7 @@ export const LearnWordMenu = () => {
     const addLevelLearnWords = useLevelLearnWordsStore(state => state.addLeveLearnWords);
 
     // currently shown words for a user to learn
-    const activeLearnWords = defaultWordsByLevel[LEVEL_TO_WORDS_KEY[defaultWordLevel]];
+    const activeLearnWords = wordsByLevel[LEVEL_TO_WORDS_KEY[defaultWordLevel]];
 
     // current word index according to word level
     const currentIdx = levelLearnWords[LEVEL_KEY_MAP[defaultWordLevel]];
@@ -77,12 +77,6 @@ export const LearnWordMenu = () => {
 
     const handleOnLevelFilterCLick = (wordLevel: WordLevel) => {
         setDefaultWordLevel(wordLevel);
-        setDefaultWordsByLevel({
-            begWords: mockData.filter(word => word.level == wordLevel),
-            intWords: mockData.filter(word => word.level == wordLevel),
-            advWords: mockData.filter(word => word.level == wordLevel),
-        })
-
     }
 
     const config = LANG_CONFIG[learnLangType];
@@ -102,21 +96,9 @@ export const LearnWordMenu = () => {
         }
     }, [])
 
-
-
-
     useEffect(() => {
         handleFetchDailyLimit();
     }, [handleFetchDailyLimit]);
-
-    useEffect(() => {
-        if(!words) return;
-        setDefaultWordsByLevel( {
-            begWords: words.filter(word => word.level === 'Beginner'),
-            intWords: words.filter(word => word.level === 'Intermediate'),
-            advWords: words.filter(word => word.level === 'Advanced')
-        })
-    }, [words]);
 
     if (isDailyLimitReached) {
         return (
