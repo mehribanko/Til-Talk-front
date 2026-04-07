@@ -33,7 +33,7 @@ export const transformApiData = (data : ApiWordItemType[]) => {
     return data.map(( item) => ({
         id: item.wordNo,
         level: item.level,
-        category: item.categoryNo,
+        category: item.categoryName,
         korean: {word: item.korWord, romanization: item.korRomanization, audio_url: item.korAudioUrl},
         karakalpak: {word: item.kkWord, romanization: item.kkRomanization, audio_url: item.kkAudioUrl},
         part_of_speech: item.partOfSpeech

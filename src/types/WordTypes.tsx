@@ -1,7 +1,7 @@
 
 export type WordLevel = 'Beginner' | 'Intermediate' | 'Advanced';
 
-export type WordCategory = 'Greetings' | 'Numbers' | 'Food' | 'Travel' | 'Education' | 'People' | 'Home' | 'Daily Life' | 'Law/Admin';
+export type WordCategory = 'Greetings' | 'Numbers' | 'Food' | 'Travel' | 'Education' | 'People' | 'Home' | 'Daily Life' | 'Law/Admin' | 'Food & Drink' | 'People & Social' | 'Places' | 'Health & Wellness' | 'Life & Development' | 'Society & Values';
 
 export type PartOfSpeech = 'Greeting' | 'Noun' | 'Verb' | 'Adjective';
 
@@ -41,7 +41,7 @@ export type WordsByLevel = {
 export type ApiWordItemType = {
     wordNo: number,
     level: WordLevel,
-    categoryNo: WordCategory,
+    categoryName: WordCategory,
     korWord: string,
     korRomanization: string,
     korAudioUrl: string,
