@@ -14,7 +14,7 @@ import {useLearnWordsQuery} from "../hooks/queries/useWordsQuery.tsx";
 
 export const LearnWordMenu = () => {
 
-    const {data: words, isPending, error} = useLearnWordsQuery();
+    const {data: words,} = useLearnWordsQuery();
     console.log("words---->", words);
 
     // card animation
@@ -53,8 +53,6 @@ export const LearnWordMenu = () => {
     const isDailyLimitReached = newlyLearnWords.length >= (dailyLimit ?? Infinity);
 
 
-
-
     const handleDealStart = () => {
         setTimeout(() => {
             setIsReceiving(true);
@@ -78,10 +76,6 @@ export const LearnWordMenu = () => {
     const handleOnLevelFilterCLick = (wordLevel: WordLevel) => {
         setDefaultWordLevel(wordLevel);
     }
-
-    const config = LANG_CONFIG[learnLangType];
-    const langData = currentWord[config.key];
-    const flipLangData = currentWord[config.flipKey];
 
     const handleSaveLearnedWords = (learnWordId : LearnedWordId) => {
         console.log("saved!", learnWordId);
@@ -111,6 +105,12 @@ export const LearnWordMenu = () => {
         )
     }
 
+
+    if (!currentWord) return null;
+
+    const config = LANG_CONFIG[learnLangType];
+    const langData = currentWord[config.key];
+    const flipLangData = currentWord[config.flipKey];
 
     return (
             <div className="h-full flex flex-col">
