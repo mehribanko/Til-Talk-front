@@ -4,7 +4,7 @@ import {DailyStreakCard} from "./DailyStreakCard.tsx";
 import type {LearnedWordLevel} from "../../types/WordTypes.tsx";
 
 interface StatCardProps {
-    dailyLimit: number | null
+    dailyLimit: number | undefined
     doneLearning: number | null
     levelLearnWords: LearnedWordLevel
 }

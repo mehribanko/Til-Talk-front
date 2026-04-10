@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import {useMemo, useRef, useState} from "react";
 import LearnWordCard from "../components/card/LearnWordCard"
 import {StatCard} from "../components/card/StatCard.tsx";
 import {LANG_CONFIG, LEVEL_KEY_MAP, LEVEL_TO_WORDS_KEY} from "../common/constant/MenuData.ts";
@@ -7,15 +7,16 @@ import {LevelFilterButtons} from "../components/button/LevelFilterButtons.tsx";
 import {useDailyLearnCountStore} from "../hooks/stateStore/useDailyLearnCountStore.ts";
 import {DailyWordDone} from "../components/card/DailyWordDone.tsx";
 import {useLevelLearnWordsStore} from "../hooks/stateStore/useLevelLearnWordsStore.tsx";
-import {useLearnWordsQuery} from "../hooks/queries/useWordsQuery.tsx";
+import {useLearnWordsQuery, useGetDailyWordLimitQuery} from "../hooks/queries/useWordsQuery.tsx";
 
 
 
 
 export const LearnWordMenu = () => {
 
-    const {data: words,} = useLearnWordsQuery();
-    console.log("words---->", words);
+    // api query
+    const {data: words} = useLearnWordsQuery();
+    const {data: dailySettings } = useGetDailyWordLimitQuery();
 
     // card animation
     const mainCardRef = useRef<HTMLDivElement>(null);
@@ -24,8 +25,6 @@ export const LearnWordMenu = () => {
 
     // default language is set to 'Karakalpak'
     const [learnLangType]= useState<'kor' | 'kk'>('kk');
-    // daily limit of words that user can learn is set dynamically
-    const [dailyLimit, setDailyLimit] = useState<number | null>(null);
     // default word category is always set to 'Beginner'
     const [defaultWordLevel, setDefaultWordLevel] = useState<WordLevel>('Beginner');
     const wordsByLevel = useMemo<WordsByLevel>(() => {
@@ -50,7 +49,7 @@ export const LearnWordMenu = () => {
     // active word based on current index
     const currentWord = activeLearnWords[currentIdx];
     // status of daily limit of words
-    const isDailyLimitReached = newlyLearnWords.length >= (dailyLimit ?? Infinity);
+    const isDailyLimitReached = newlyLearnWords.length >= (dailySettings?.dailyWordLimit ?? Infinity);
 
 
     const handleDealStart = () => {
@@ -81,23 +80,13 @@ export const LearnWordMenu = () => {
         console.log("saved!", learnWordId);
     }
 
-    const handleFetchDailyLimit = useCallback(async () =>  {
-        try{
-            await new Promise( (resolve) => setTimeout(resolve, 100));
-            setDailyLimit(5);
-        }catch (error) {
-            console.error("Error fetching daily limit", error);
-        }
-    }, [])
 
-    useEffect(() => {
-        handleFetchDailyLimit();
-    }, [handleFetchDailyLimit]);
+
 
     if (isDailyLimitReached) {
         return (
             <div className="h-full flex flex-col">
-                <StatCard doneLearning={newlyLearnWords.length} dailyLimit={dailyLimit} levelLearnWords={levelLearnWords} />
+                <StatCard doneLearning={newlyLearnWords.length} dailyLimit={dailySettings?.dailyWordLimit} levelLearnWords={levelLearnWords} />
                 <div className="flex-1 flex items-center justify-center">
                     <DailyWordDone />
                 </div>
@@ -114,7 +103,7 @@ export const LearnWordMenu = () => {
 
     return (
             <div className="h-full flex flex-col">
-                <StatCard doneLearning={newlyLearnWords.length} dailyLimit = {dailyLimit} levelLearnWords = {levelLearnWords} />
+                <StatCard doneLearning={newlyLearnWords.length} dailyLimit = {dailySettings?.dailyWordLimit} levelLearnWords = {levelLearnWords} />
 
                 <div className="flex-1 flex items-center">
                     <div className="pl-6">

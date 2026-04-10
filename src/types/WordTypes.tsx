@@ -50,3 +50,13 @@ export type ApiWordItemType = {
     kkAudioUrl: string;
     partOfSpeech: PartOfSpeech,
 }
+
+
+export type DailyUserSettingType = {
+
+    userId: number,
+    dailyWordLimit: number,
+    nativeLang: string,
+    targetLang: string,
+    lastLimitUpdate: Date
+}

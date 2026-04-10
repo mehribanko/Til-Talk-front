@@ -7,3 +7,10 @@ export const useLearnWordsQuery = () => {
         queryFn: wordsApi.fetchLearnWords
     })
 }
+
+export const useGetDailyWordLimitQuery = () => {
+    return useQuery({
+        queryKey: ['dailyLimit'],
+        queryFn: wordsApi.fetchDailyWordLimit
+    })
+}
