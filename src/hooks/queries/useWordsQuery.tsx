@@ -1,4 +1,4 @@
-import {useQuery} from "@tanstack/react-query";
+import {useMutation, useQuery} from "@tanstack/react-query";
 import {wordsApi} from "../../queries/wordQueries.tsx";
 
 export const useLearnWordsQuery = () => {
@@ -12,5 +12,11 @@ export const useGetDailyWordLimitQuery = () => {
     return useQuery({
         queryKey: ['dailyLimit'],
         queryFn: wordsApi.fetchDailyWordLimit
+    })
+}
+
+export const useSaveLearnWordsQuery = () => {
+    return useMutation({
+        mutationFn: wordsApi.saveDailyLearnWords
     })
 }

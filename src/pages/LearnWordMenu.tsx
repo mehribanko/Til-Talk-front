@@ -7,7 +7,11 @@ import {LevelFilterButtons} from "../components/button/LevelFilterButtons.tsx";
 import {useDailyLearnCountStore} from "../hooks/stateStore/useDailyLearnCountStore.ts";
 import {DailyWordDone} from "../components/card/DailyWordDone.tsx";
 import {useLevelLearnWordsStore} from "../hooks/stateStore/useLevelLearnWordsStore.tsx";
-import {useLearnWordsQuery, useGetDailyWordLimitQuery} from "../hooks/queries/useWordsQuery.tsx";
+import {
+    useLearnWordsQuery,
+    useGetDailyWordLimitQuery,
+    useSaveLearnWordsQuery
+} from "../hooks/queries/useWordsQuery.tsx";
 
 
 
@@ -17,6 +21,7 @@ export const LearnWordMenu = () => {
     // api query
     const {data: words} = useLearnWordsQuery();
     const {data: dailySettings } = useGetDailyWordLimitQuery();
+    const {mutate: saveLearnedWord} = useSaveLearnWordsQuery();
 
     // card animation
     const mainCardRef = useRef<HTMLDivElement>(null);
@@ -61,7 +66,7 @@ export const LearnWordMenu = () => {
 
     const handleOnLearnClick = () => {
         addNewlyLearnWords({id: currentWord.id});
-        handleSaveLearnedWords({id: currentWord.id});
+        saveLearnedWord(currentWord.id);
         const levelKey = LEVEL_KEY_MAP[currentWord.level];
         addLevelLearnWords(levelKey);
         setFlippedCard(false);
@@ -74,10 +79,6 @@ export const LearnWordMenu = () => {
 
     const handleOnLevelFilterCLick = (wordLevel: WordLevel) => {
         setDefaultWordLevel(wordLevel);
-    }
-
-    const handleSaveLearnedWords = (learnWordId : LearnedWordId) => {
-        console.log("saved!", learnWordId);
     }
 
 
