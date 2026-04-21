@@ -13,8 +13,8 @@ const fetchDailyWordLimit = async () :Promise<DailyUserSettingType> => {
     return res.data;
 }
 
-const saveDailyLearnWords = async (wordId: number) :Promise<void> => {
-    await axiosInstance.post('/learn/daily/word', {wordId});
+const saveDailyLearnWords = async (wordNo: number) :Promise<void> => {
+    await axiosInstance.post('/learn/daily/progress', {wordNo});
 }
 
 

@@ -2,7 +2,7 @@ import {useMemo, useRef, useState} from "react";
 import LearnWordCard from "../components/card/LearnWordCard"
 import {StatCard} from "../components/card/StatCard.tsx";
 import {LANG_CONFIG, LEVEL_KEY_MAP, LEVEL_TO_WORDS_KEY} from "../common/constant/MenuData.ts";
-import type {LearnedWordId, WordLevel, WordsByLevel} from "../types/WordTypes.tsx";
+import type {WordLevel, WordsByLevel} from "../types/WordTypes.tsx";
 import {LevelFilterButtons} from "../components/button/LevelFilterButtons.tsx";
 import {useDailyLearnCountStore} from "../hooks/stateStore/useDailyLearnCountStore.ts";
 import {DailyWordDone} from "../components/card/DailyWordDone.tsx";
