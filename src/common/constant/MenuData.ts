@@ -5,7 +5,6 @@ export const SidebarMenuItems = [
 
 ]
 
-
 export const LANG_CONFIG = {
     kk: {key: 'karakalpak', label: 'Karakalpak', flipLabel: 'Korean', flipKey: 'korean'},
     kor: {key: 'korean', label: 'Korean', flipLabel: 'Karakalpak', flipKey: 'karakalpak'}
