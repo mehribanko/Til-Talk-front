@@ -8,8 +8,7 @@ import {useDailyLearnCountStore} from "../hooks/stateStore/useDailyLearnCountSto
 import {useLevelLearnWordsStore} from "../hooks/stateStore/useLevelLearnWordsStore.tsx";
 import {
     useLearnWordsQuery,
-    useGetDailyWordLimitQuery,
-    useSaveLearnWordsQuery
+    useSaveLearnWordsQuery, useGetUserDailySettings
 } from "../hooks/queries/useWordsQuery.tsx";
 import type {WordLevel, WordsByLevel} from "../types/WordTypes.tsx";
 
@@ -19,7 +18,7 @@ export const LearnWordMenu = () => {
 
     // api query
     const {data: words} = useLearnWordsQuery();
-    const {data: dailySettings } = useGetDailyWordLimitQuery();
+    const {data: dailySettings } = useGetUserDailySettings();
     const {mutate: saveLearnedWord} = useSaveLearnWordsQuery();
 
     // card animation

@@ -1,6 +1,5 @@
 import axiosInstance from "../lib/axiosInstance.tsx";
 import {transformApiData} from "../common/util/commonUtils.tsx";
-import type {DailyUserSettingType} from "../types/WordTypes.tsx";
 
 
 const fetchLearnWords = async () => {
@@ -8,8 +7,9 @@ const fetchLearnWords = async () => {
     return transformApiData(res.data);
 }
 
-const fetchDailyWordLimit = async () :Promise<DailyUserSettingType> => {
-    const res = await axiosInstance.get('/learn/daily/limit');
+
+const fetchUserDailySettings = async () => {
+    const res = await axiosInstance.get('/learn/user/settings');
     return res.data;
 }
 
@@ -20,6 +20,6 @@ const saveDailyLearnWords = async (wordNo: number) :Promise<void> => {
 
 export const wordsApi ={
     fetchLearnWords,
-    fetchDailyWordLimit,
-    saveDailyLearnWords
+    saveDailyLearnWords,
+    fetchUserDailySettings
 }

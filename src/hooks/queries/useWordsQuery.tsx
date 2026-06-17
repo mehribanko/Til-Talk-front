@@ -8,10 +8,10 @@ export const useLearnWordsQuery = () => {
     })
 }
 
-export const useGetDailyWordLimitQuery = () => {
+export const useGetUserDailySettings = () => {
     return useQuery({
         queryKey: ['dailyLimit'],
-        queryFn: wordsApi.fetchDailyWordLimit
+        queryFn: wordsApi.fetchUserDailySettings
     })
 }
 
