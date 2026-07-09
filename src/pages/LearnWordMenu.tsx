@@ -10,7 +10,7 @@ import {
     useLearnWordsQuery,
     useSaveLearnWordsQuery, useGetUserDailySettings
 } from "../hooks/queries/useWordsQuery.tsx";
-import type {WordLevel, WordsByLevel} from "../types/WordTypes.tsx";
+import type { WordLevel, WordsByLevel} from "../types/WordTypes.tsx";
 
 
 
@@ -26,8 +26,6 @@ export const LearnWordMenu = () => {
     const [isReceiving, setIsReceiving] = useState(false);
     const [flippedCard, setFlippedCard] = useState(false);
 
-    // default language is set to 'Karakalpak'
-    const [learnLangType]= useState<'kor' | 'kk'>('kk');
     // default word category is always set to 'Beginner'
     const [defaultWordLevel, setDefaultWordLevel] = useState<WordLevel>('Beginner');
     const wordsByLevel = useMemo<WordsByLevel>(() => {
@@ -94,9 +92,9 @@ export const LearnWordMenu = () => {
     }
 
 
-    if (!currentWord) return null;
+    if (!dailySettings || !currentWord) return null;
 
-    const config = LANG_CONFIG[learnLangType];
+    const config = LANG_CONFIG[dailySettings.targetLang];
     const langData = currentWord[config.key];
     const flipLangData = currentWord[config.flipKey];
 

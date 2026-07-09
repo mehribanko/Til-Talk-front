@@ -1,5 +1,6 @@
 import axiosInstance from "../lib/axiosInstance.tsx";
 import {transformApiData} from "../common/util/commonUtils.tsx";
+import type {DailyUserSettingType} from "../types/WordTypes.tsx";
 
 
 const fetchLearnWords = async () => {
@@ -8,7 +9,7 @@ const fetchLearnWords = async () => {
 }
 
 
-const fetchUserDailySettings = async () => {
+const fetchUserDailySettings = async (): Promise<DailyUserSettingType> => {
     const res = await axiosInstance.get('/learn/user/settings');
     return res.data;
 }

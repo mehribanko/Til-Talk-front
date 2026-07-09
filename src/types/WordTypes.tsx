@@ -1,3 +1,4 @@
+import type {LANG_CONFIG} from "../common/constant/MenuData.ts";
 
 export type WordLevel = 'Beginner' | 'Intermediate' | 'Advanced';
 
@@ -51,12 +52,13 @@ export type ApiWordItemType = {
     partOfSpeech: PartOfSpeech,
 }
 
+export type TargetLang = keyof typeof LANG_CONFIG;
 
 export type DailyUserSettingType = {
 
     userId: number,
     dailyWordLimit: number,
-    nativeLang: string,
-    targetLang: string,
+    nativeLang: TargetLang,
+    targetLang: TargetLang,
     lastLimitUpdate: Date
 }
